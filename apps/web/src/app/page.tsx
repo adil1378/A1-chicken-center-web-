@@ -1,3 +1,4 @@
+import React from "react";
 import { ShieldCheck, Server, Sparkles, Layers } from "lucide-react";
 
 export default function Home() {
@@ -91,3 +92,4 @@ export default function Home() {
     </main>
   );
 }
+
