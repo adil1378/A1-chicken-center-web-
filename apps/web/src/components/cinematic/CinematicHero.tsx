@@ -8,9 +8,22 @@ export default function CinematicHero() {
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [progress, setProgress] = useState<number>(0);
-  const [hasLoaded, setHasLoaded] = useState<boolean>(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
 
   useEffect(() => {
+    // Check user preference for reduced motion
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handleMotionChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      setPrefersReducedMotion(e.matches);
+      if (e.matches && videoRef.current) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    handleMotionChange(motionQuery);
+    motionQuery.addEventListener("change", handleMotionChange);
+
     const video = videoRef.current;
     if (!video) return;
 
@@ -20,16 +33,18 @@ export default function CinematicHero() {
       }
     };
 
-    const handleCanPlay = () => {
-      setHasLoaded(true);
-    };
+    const handlePlayEvent = () => setIsPlaying(true);
+    const handlePauseEvent = () => setIsPlaying(false);
 
     video.addEventListener("timeupdate", handleTimeUpdate);
-    video.addEventListener("canplay", handleCanPlay);
+    video.addEventListener("play", handlePlayEvent);
+    video.addEventListener("pause", handlePauseEvent);
 
     return () => {
+      motionQuery.removeEventListener("change", handleMotionChange);
       video.removeEventListener("timeupdate", handleTimeUpdate);
-      video.removeEventListener("canplay", handleCanPlay);
+      video.removeEventListener("play", handlePlayEvent);
+      video.removeEventListener("pause", handlePauseEvent);
     };
   }, []);
 
@@ -37,12 +52,10 @@ export default function CinematicHero() {
     const video = videoRef.current;
     if (!video) return;
 
-    if (isPlaying) {
-      video.pause();
-      setIsPlaying(false);
-    } else {
+    if (video.paused) {
       video.play().catch(() => {});
-      setIsPlaying(true);
+    } else {
+      video.pause();
     }
   };
 
@@ -67,16 +80,17 @@ export default function CinematicHero() {
       <div className="absolute inset-0 z-0">
         <video
           ref={videoRef}
-          autoPlay
+          autoPlay={!prefersReducedMotion}
           loop
           muted
           playsInline
-          poster="/assets/images/whole-carving.jpg"
+          preload="metadata"
+          poster="/assets/images/whole-dressed-center.jpg"
           className="w-full h-full object-cover object-center filter brightness-[0.72] contrast-[1.08]"
-          aria-label="A1 Chicken Center butchery process video"
+          aria-label="A1 Chicken Center butcher preparation demonstration"
         >
           <source src="/assets/video/a1-hero-butchery.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
+          Your browser does not support HTML5 video playback.
         </video>
 
         {/* Cinematic Vignette and Dark Gradients */}
@@ -87,10 +101,10 @@ export default function CinematicHero() {
 
       {/* Hero Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-20 text-center flex flex-col items-center">
-        {/* Animated Pill Badge */}
+        {/* Honest Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black-surface/80 border border-brand-800/60 backdrop-blur-md text-brand-100 text-xs sm:text-sm font-semibold mb-8 shadow-xl shadow-brand-950/50">
           <Sparkles className="w-4 h-4 text-brand-500 animate-pulse" />
-          <span className="tracking-wide">100% Farm-Fresh &bull; Master Butcher Cuts</span>
+          <span className="tracking-wide">Fresh Daily Poultry &bull; Custom Butchery</span>
         </div>
 
         {/* Main Brand Title */}
@@ -105,8 +119,8 @@ export default function CinematicHero() {
 
         {/* Sub-headline description */}
         <p className="text-sm sm:text-base md:text-lg text-white-off/80 max-w-2xl mx-auto leading-relaxed mb-10 font-normal">
-          Experience the art of artisanal poultry butchery. Every bird is inspected for farm-grade
-          cleanliness, trimmed in sterile clean-room stations, and portioned to your exact culinary recipe.
+          Handled with care and portioned to order. From whole dressed birds to boneless cuts and diced
+          curry pieces, we cut every order cleanly to match your home cooking needs.
         </p>
 
         {/* Video Playback Controls Bar */}
@@ -114,17 +128,17 @@ export default function CinematicHero() {
           <button
             onClick={togglePlay}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs sm:text-sm transition shadow-lg shadow-brand-900/40"
-            aria-label={isPlaying ? "Pause Video" : "Play Video"}
+            aria-label={isPlaying ? "Pause video presentation" : "Play video presentation"}
           >
             {isPlaying ? (
               <>
                 <Pause className="w-4 h-4" />
-                <span>Pause Reel</span>
+                <span>Pause</span>
               </>
             ) : (
               <>
                 <Play className="w-4 h-4" />
-                <span>Play Reel</span>
+                <span>Play</span>
               </>
             )}
           </button>
@@ -132,7 +146,7 @@ export default function CinematicHero() {
           <button
             onClick={toggleMute}
             className="flex items-center gap-2 px-3 py-2 rounded-xl bg-black-deep hover:bg-black-border text-white-off text-xs sm:text-sm transition border border-black-border"
-            aria-label={isMuted ? "Unmute Audio" : "Mute Audio"}
+            aria-label={isMuted ? "Unmute video audio" : "Mute video audio"}
           >
             {isMuted ? (
               <>
@@ -157,7 +171,7 @@ export default function CinematicHero() {
 
           <div className="inline-flex items-center gap-1.5 text-xs text-white-off/70 pl-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>HACCP Certified Protocol</span>
+            <span>Clean Prep Table &bull; Fresh Stock</span>
           </div>
         </div>
 

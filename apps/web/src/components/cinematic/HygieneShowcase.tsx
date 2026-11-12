@@ -1,32 +1,32 @@
 import React from "react";
 import Image from "next/image";
-import { ShieldCheck, Droplets, ThermometerSnowflake, Award } from "lucide-react";
+import { ShieldCheck, Droplets, Snowflake, Sparkles } from "lucide-react";
 
 export default function HygieneShowcase() {
   const pillars = [
     {
       icon: ShieldCheck,
-      title: "Single-Use Blue Glove Protocol",
+      title: "Gloved Preparation Protocol",
       description:
-        "Every cut is prepared by butchers wearing food-grade nitrile gloves. Cross-contamination between raw batches is strictly prevented.",
+        "Butchers wear clean single-use gloves during cutting and portioning to maintain personal and food hygiene standards.",
     },
     {
       icon: Droplets,
-      title: "Triple-Stage RO Water Wash",
+      title: "Clean Fresh Water Rinse",
       description:
-        "Birds undergo triple-filtered sterile water rinses to remove all natural impurities, blood residues, and surface moisture before packing.",
+        "Every bird is thoroughly washed with clean water prior to cutting, removing natural surface impurities before packaging.",
     },
     {
-      icon: ThermometerSnowflake,
-      title: "0°C to 4°C Cold Chain",
+      icon: Snowflake,
+      title: "Chilled Fresh Daily",
       description:
-        "Chilled below 4°C immediately upon dressing. Never subjected to warm temperatures or repeated freeze-thaw cycles that compromise meat texture.",
+        "Stock is brought in fresh and kept appropriately chilled to preserve tenderness and prevent spoilage throughout the day.",
     },
     {
-      icon: Award,
-      title: "Daily Disinfected Stations",
+      icon: Sparkles,
+      title: "Sanitized Prep Surfaces",
       description:
-        "HACCP-compliant color-coded cutting boards, commercial stainless tables, and German cutlery sterilized multiple times per shift.",
+        "Cutting blocks, knives, and stainless-steel prep tables are frequently washed and sanitized throughout working hours.",
     },
   ];
 
@@ -39,7 +39,7 @@ export default function HygieneShowcase() {
             <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border border-brand-800/60 shadow-2xl bg-black-deep">
               <Image
                 src="/assets/images/boneless-breast.jpg"
-                alt="Sterile blue-glove chicken filleting at A1 Chicken Center"
+                alt="Butcher preparing chicken cuts wearing gloves at A1 Chicken Center"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover object-center filter contrast-[1.08]"
@@ -48,10 +48,10 @@ export default function HygieneShowcase() {
 
               <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-black-deep/90 border border-brand-800/80 backdrop-blur-md">
                 <span className="text-xs font-mono text-brand-500 font-bold uppercase tracking-wider block mb-1">
-                  Hygiene Standard
+                  Hygiene Practice
                 </span>
                 <p className="text-sm font-semibold text-white">
-                  Hospital-Grade Cleanliness in Every Single Order
+                  Clean, Sanitized Prep with Every Order
                 </p>
               </div>
             </div>
@@ -61,14 +61,14 @@ export default function HygieneShowcase() {
           <div className="lg:col-span-7 space-y-8">
             <div>
               <span className="text-xs font-semibold uppercase tracking-wider text-brand-500">
-                Uncompromising Food Safety
+                Food Safety Standards
               </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-1 mb-4">
                 The A1 Hygiene Promise
               </h2>
               <p className="text-sm sm:text-base text-black-muted leading-relaxed">
-                We believe that premium meat begins with clinical hygiene. Our prep stations are designed
-                to eliminate the unpleasant odor, flies, and bacteria common in traditional roadside butcher shops.
+                We take cleanliness seriously. From washed prep surfaces to gloved handling and daily
+                fresh stock, we ensure that every cut you receive is handled with care and cleanliness.
               </p>
             </div>
 

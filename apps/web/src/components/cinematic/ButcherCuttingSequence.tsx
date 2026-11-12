@@ -22,53 +22,53 @@ const STAGES: CuttingStage[] = [
     id: "stage-1",
     stepNumber: "01",
     title: "Whole Dressed Bird Preparation",
-    subtitle: "Farm-Fresh Inspection & Sanitization",
+    subtitle: "Visual Inspection & Clean Prep",
     description:
-      "Every bird arrives chilled through an unbroken cold chain. Surface inspection guarantees a natural pink tone, firm muscle density, and clean skin with zero chemical processing or artificial tenderizers.",
-    imageSrc: "/assets/images/whole-carving.jpg",
-    toolUsed: "Stainless Steel Prep Block & Sterilized Cleaver",
-    knifeAngle: "0° Flat resting alignment",
-    sanitationNote: "Triple-filtered chilled wash prior to incision",
-    culinaryYield: "Complete whole bird with natural moisture intact",
+      "Every bird is inspected upon arrival to verify clean skin texture, natural color, and firmness before cutting. The bird is thoroughly rinsed with clean water and placed on a clean prep station.",
+    imageSrc: "/assets/images/whole-dressed-center.jpg",
+    toolUsed: "Butcher Prep Block & Clean Cleaver",
+    knifeAngle: "Stationary resting position",
+    sanitationNote: "Thorough clean rinse before cutting",
+    culinaryYield: "Clean whole dressed bird ready for division",
   },
   {
     id: "stage-2",
     stepNumber: "02",
     title: "Anatomical Joint & Leg Separation",
-    subtitle: "Natural Socket De-jointing (Zero Bone Splinters)",
+    subtitle: "Joint Separation along Natural Cartilage",
     description:
-      "A surgical cut cleanly parts the drumstick and thigh quarters along the natural cartilage joint. By following the skeletal anatomy rather than sawing through bone, bone splintering is 100% eliminated.",
-    imageSrc: "/assets/images/whole-carving.jpg",
-    toolUsed: "German Carbon-Steel 8-inch Chef Knife",
-    knifeAngle: "45° Joint incision angle",
-    sanitationNote: "Sanitized cutting block after each carcass",
-    culinaryYield: "Intact drumstick & thigh cuts with undamaged bone marrow",
+      "The drumstick and thigh quarters are separated along natural joint cartilage with a sharp blade. Cutting through joint sockets rather than sawing through bone helps minimize bone fragments.",
+    imageSrc: "/assets/images/drumstick-cut.jpg",
+    toolUsed: "8-inch Stainless Steel Butcher Knife",
+    knifeAngle: "Joint socket incision angle",
+    sanitationNote: "Cutting board kept wiped down and clean",
+    culinaryYield: "Cleanly separated drumstick and whole leg cuts",
   },
   {
     id: "stage-3",
     stepNumber: "03",
-    title: "Sterile Boneless Breast Filleting",
-    subtitle: "Blue-Glove Precision Carving",
+    title: "Careful Boneless Breast Filleting",
+    subtitle: "Gloved Filleting on Clean Boards",
     description:
-      "Operating on color-coded food-safe red prep boards, butchers wear single-use nitrile gloves to carve the tender breast halves off the sternum. Trimmed clean of excess fat and connective cartilage.",
+      "Working on dedicated meat boards with single-use gloves, the butcher carefully fillets the tender breast meat off the rib cage, trimming away excess skin and fat.",
     imageSrc: "/assets/images/boneless-breast.jpg",
-    toolUsed: "Sanitized Flexible Boning Knife (Green Grip)",
-    knifeAngle: "15° Keel-bone sliding contour",
-    sanitationNote: "Continuous nitrile glove barrier and stainless table",
-    culinaryYield: "100% lean, skinless, high-protein breast fillets",
+    toolUsed: "Flexible Boning Knife",
+    knifeAngle: "Rib-line contour cut",
+    sanitationNote: "Gloved handling on dedicated board",
+    culinaryYield: "Trimmed boneless breast fillets",
   },
   {
     id: "stage-4",
     stepNumber: "04",
-    title: "Uniform Gourmet Dicing",
-    subtitle: "Even-Cooking Cubes for Curries & Tikkas",
+    title: "Uniform Curry & Tikka Dicing",
+    subtitle: "Evenly Sized Pieces for Home Cooking",
     description:
-      "The filleted meat is portioned into uniform bite-sized cubes. Consistency in cut size ensures even thermal distribution during cooking, preserving juiciness and tenderness in gravies.",
+      "The meat is sliced into uniform pieces based on customer preference. Consistent sizing ensures that all pieces cook through at an even rate in your pan or pot.",
     imageSrc: "/assets/images/diced-cubes.jpg",
-    toolUsed: "High-Precision Dicing Utility Knife",
-    knifeAngle: "90° Cross-grain perpendicular cut",
-    sanitationNote: "Direct pack into food-grade leakproof containers",
-    culinaryYield: "Ready-to-pan diced pieces with zero prep required",
+    toolUsed: "Utility Dicing Knife",
+    knifeAngle: "Cross-grain uniform slices",
+    sanitationNote: "Packed directly into clean food-safe packaging",
+    culinaryYield: "Uniform diced cuts ready for home cooking",
   },
 ];
 
@@ -87,7 +87,7 @@ export default function ButcherCuttingSequence() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-950/80 border border-brand-800 text-brand-500 text-xs font-semibold mb-4">
             <Sparkles className="w-3.5 h-3.5" />
-            <span className="uppercase tracking-wider">Artisanal Butchery Standards</span>
+            <span className="uppercase tracking-wider">Butchery Process</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
@@ -95,8 +95,8 @@ export default function ButcherCuttingSequence() {
           </h2>
 
           <p className="text-sm sm:text-base text-black-muted leading-relaxed">
-            Witness how whole farm-fresh birds are transformed into precision cuts through
-            sterile butchery protocols, professional blades, and zero bone fragmentation.
+            See how whole birds are cleanly separated into individual cuts using proper knife
+            technique, dedicated clean cutting surfaces, and careful portioning.
           </p>
         </div>
 
@@ -113,6 +113,7 @@ export default function ButcherCuttingSequence() {
                     ? "bg-brand-950/60 border-brand-600 shadow-lg shadow-brand-950"
                     : "bg-black-deep/60 border-black-border hover:border-brand-900/50 hover:bg-black-deep"
                 }`}
+                aria-pressed={isActive}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span
@@ -141,7 +142,7 @@ export default function ButcherCuttingSequence() {
           <div className="lg:col-span-7 relative group">
             <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden border border-black-border bg-black-surface">
               <Image
-                src={activeStage.imageSrc}
+                src={stageImageFor(activeStage.imageSrc)}
                 alt={activeStage.title}
                 fill
                 sizes="(max-width: 1024px) 100vw, 60vw"
@@ -153,7 +154,7 @@ export default function ButcherCuttingSequence() {
               {/* Stage Badge on image */}
               <div className="absolute top-4 left-4 bg-black-deep/90 border border-brand-800/80 px-3 py-1.5 rounded-lg backdrop-blur-md">
                 <span className="text-xs font-mono text-brand-500 font-bold uppercase tracking-wider">
-                  Phase 2 &bull; Step {activeStage.stepNumber}
+                  Step {activeStage.stepNumber} &bull; {activeStage.subtitle}
                 </span>
               </div>
             </div>
@@ -173,7 +174,7 @@ export default function ButcherCuttingSequence() {
               </p>
             </div>
 
-            {/* Butchery Telemetry Data */}
+            {/* Practical Butchery Details */}
             <div className="space-y-3 pt-4 border-t border-black-border">
               <div className="flex items-start gap-3 text-xs">
                 <div className="w-6 h-6 rounded-md bg-brand-950 flex items-center justify-center shrink-0 border border-brand-800/40 text-brand-500">
@@ -190,7 +191,7 @@ export default function ButcherCuttingSequence() {
                   <ShieldCheck className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <span className="text-black-muted block">Sanitary Standard:</span>
+                  <span className="text-black-muted block">Cleanliness Practice:</span>
                   <span className="text-white-off font-medium">{activeStage.sanitationNote}</span>
                 </div>
               </div>
@@ -200,7 +201,7 @@ export default function ButcherCuttingSequence() {
                   <ChevronRight className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <span className="text-black-muted block">Culinary Specification:</span>
+                  <span className="text-black-muted block">Intended Result:</span>
                   <span className="text-white-off font-medium">{activeStage.culinaryYield}</span>
                 </div>
               </div>
@@ -210,4 +211,8 @@ export default function ButcherCuttingSequence() {
       </div>
     </section>
   );
+}
+
+function stageImageFor(path: string): string {
+  return path;
 }

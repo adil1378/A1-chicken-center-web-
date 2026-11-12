@@ -53,6 +53,6 @@ describe("Phase 2 Cinematic Landing Page", () => {
   it("renders the hygiene and food safety promise section", () => {
     render(<Home />);
     expect(screen.getByText(/The A1 Hygiene Promise/i)).toBeDefined();
-    expect(screen.getByText(/Single-Use Blue Glove Protocol/i)).toBeDefined();
+    expect(screen.getByText(/Gloved Preparation Protocol/i)).toBeDefined();
   });
 });

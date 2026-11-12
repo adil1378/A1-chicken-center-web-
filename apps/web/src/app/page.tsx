@@ -34,7 +34,7 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row items-center gap-4 text-xs">
           <span>&copy; 2026 A1 Chicken Center. All rights reserved.</span>
           <span className="hidden sm:inline text-black-border">&bull;</span>
-          <span className="text-white-off/80 font-medium">Phase 2: Cinematic Frontend & Animations Active</span>
+          <span className="text-white-off/80 font-medium">Phase 2: Cinematic Frontend & Animations Completed</span>
         </div>
       </footer>
     </main>
