@@ -13,7 +13,7 @@ interface CuttingStage {
   imageSrc: string;
   toolUsed: string;
   knifeAngle: string;
-  sanitationNote: string;
+  handlingNote: string;
   culinaryYield: string;
 }
 
@@ -22,52 +22,52 @@ const STAGES: CuttingStage[] = [
     id: "stage-1",
     stepNumber: "01",
     title: "Whole Dressed Bird Preparation",
-    subtitle: "Visual Inspection & Clean Prep",
+    subtitle: "Fresh Bird Inspection",
     description:
-      "Every bird is inspected upon arrival to verify clean skin texture, natural color, and firmness before cutting. The bird is thoroughly rinsed with clean water and placed on a clean prep station.",
+      "Each bird is inspected upon arrival for natural color, clean appearance, and firmness before cutting begins.",
     imageSrc: "/assets/images/whole-dressed-center.jpg",
-    toolUsed: "Butcher Prep Block & Clean Cleaver",
+    toolUsed: "Butcher Cleaver & Prep Block",
     knifeAngle: "Stationary resting position",
-    sanitationNote: "Thorough clean rinse before cutting",
-    culinaryYield: "Clean whole dressed bird ready for division",
+    handlingNote: "Inspected for freshness and clean appearance",
+    culinaryYield: "Clean whole dressed bird ready for portioning",
   },
   {
     id: "stage-2",
     stepNumber: "02",
     title: "Anatomical Joint & Leg Separation",
-    subtitle: "Joint Separation along Natural Cartilage",
+    subtitle: "Natural Joint Separation",
     description:
-      "The drumstick and thigh quarters are separated along natural joint cartilage with a sharp blade. Cutting through joint sockets rather than sawing through bone helps minimize bone fragments.",
+      "The drumsticks and thigh quarters are separated smoothly along natural joint cartilage to keep meat cuts neat and well portioned.",
     imageSrc: "/assets/images/drumstick-cut.jpg",
-    toolUsed: "8-inch Stainless Steel Butcher Knife",
+    toolUsed: "Butcher Knife",
     knifeAngle: "Joint socket incision angle",
-    sanitationNote: "Cutting board kept wiped down and clean",
-    culinaryYield: "Cleanly separated drumstick and whole leg cuts",
+    handlingNote: "Portioned cleanly along natural joints",
+    culinaryYield: "Separated drumsticks and leg portions",
   },
   {
     id: "stage-3",
     stepNumber: "03",
     title: "Careful Boneless Breast Filleting",
-    subtitle: "Gloved Filleting on Clean Boards",
+    subtitle: "Boneless Breast Filleting",
     description:
-      "Working on dedicated meat boards with single-use gloves, the butcher carefully fillets the tender breast meat off the rib cage, trimming away excess skin and fat.",
+      "The butcher carefully separates the breast meat from the rib frame, neatly trimming the cut for kitchen-ready cooking.",
     imageSrc: "/assets/images/boneless-breast.jpg",
-    toolUsed: "Flexible Boning Knife",
+    toolUsed: "Boning Knife",
     knifeAngle: "Rib-line contour cut",
-    sanitationNote: "Gloved handling on dedicated board",
+    handlingNote: "Hand-trimmed boneless fillets",
     culinaryYield: "Trimmed boneless breast fillets",
   },
   {
     id: "stage-4",
     stepNumber: "04",
     title: "Uniform Curry & Tikka Dicing",
-    subtitle: "Evenly Sized Pieces for Home Cooking",
+    subtitle: "Uniform Cut Sizing",
     description:
-      "The meat is sliced into uniform pieces based on customer preference. Consistent sizing ensures that all pieces cook through at an even rate in your pan or pot.",
+      "The meat is cut into uniform portions according to customer preference, providing even cooking for curries and pan dishes.",
     imageSrc: "/assets/images/diced-cubes.jpg",
-    toolUsed: "Utility Dicing Knife",
+    toolUsed: "Utility Knife",
     knifeAngle: "Cross-grain uniform slices",
-    sanitationNote: "Packed directly into clean food-safe packaging",
+    handlingNote: "Uniform portions for even cooking",
     culinaryYield: "Uniform diced cuts ready for home cooking",
   },
 ];
@@ -95,8 +95,8 @@ export default function ButcherCuttingSequence() {
           </h2>
 
           <p className="text-sm sm:text-base text-black-muted leading-relaxed">
-            See how whole birds are cleanly separated into individual cuts using proper knife
-            technique, dedicated clean cutting surfaces, and careful portioning.
+            See how whole birds are cleanly portioned into everyday kitchen cuts with experienced
+            butchery and careful preparation.
           </p>
         </div>
 
@@ -191,8 +191,8 @@ export default function ButcherCuttingSequence() {
                   <ShieldCheck className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <span className="text-black-muted block">Cleanliness Practice:</span>
-                  <span className="text-white-off font-medium">{activeStage.sanitationNote}</span>
+                  <span className="text-black-muted block">Handling &amp; Care:</span>
+                  <span className="text-white-off font-medium">{activeStage.handlingNote}</span>
                 </div>
               </div>
 

@@ -16,7 +16,7 @@ export default function Home() {
       {/* 3. Scroll-Driven Chicken Part Separation (GSAP + ScrollTrigger) */}
       <ScrollCutsSeparation />
 
-      {/* 4. Hygiene & Sterile Butchery Promise */}
+      {/* 4. Quality Handling & Fresh Cut Presentation */}
       <HygieneShowcase />
 
       {/* Cinematic Experience Footer */}

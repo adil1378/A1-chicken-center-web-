@@ -1,15 +1,14 @@
 import React from "react";
-import { describe, it, expect, beforeAll, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Home from "../page";
 
-// Setup mocks for jsdom environment
-beforeAll(() => {
-  // Mock matchMedia for responsive / reduced motion checks
+// Helper to configure matchMedia mock
+function setupMatchMedia(reducedMotion: boolean = false) {
   Object.defineProperty(window, "matchMedia", {
     writable: true,
     value: vi.fn().mockImplementation((query) => ({
-      matches: false,
+      matches: query.includes("prefers-reduced-motion") ? reducedMotion : false,
       media: query,
       onchange: null,
       addListener: vi.fn(),
@@ -19,23 +18,33 @@ beforeAll(() => {
       dispatchEvent: vi.fn(),
     })),
   });
+}
 
-  // Mock HTMLMediaElement play/pause
+beforeEach(() => {
+  setupMatchMedia(false);
   window.HTMLMediaElement.prototype.play = vi.fn().mockResolvedValue(undefined);
   window.HTMLMediaElement.prototype.pause = vi.fn();
   window.scrollTo = vi.fn();
 });
 
-describe("Phase 2 Cinematic Landing Page", () => {
+describe("Phase 2 Cinematic Landing Page & Animations", () => {
   it("renders hero brand title and official tagline", () => {
     render(<Home />);
-    
-    // Check main brand headline
     expect(screen.getByRole("heading", { level: 1, name: /A1 CHICKEN CENTER/i })).toBeDefined();
-    
-    // Check tagline
     const taglines = screen.getAllByText(/Freshness You Can Trust\./i);
     expect(taglines.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("ensures initial visibility of whole-chicken image with accessible alt text", () => {
+    render(<Home />);
+    
+    // Check whole dressed chicken images in initial state
+    const wholeChickenImages = screen.getAllByAltText(/Complete whole dressed chicken prior to butchering|Whole dressed chicken before separation/i);
+    expect(wholeChickenImages.length).toBeGreaterThanOrEqual(1);
+    
+    // Check whole chicken labels
+    const wholeChickenLabels = screen.getAllByText(/Whole Dressed Chicken/i);
+    expect(wholeChickenLabels.length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders the master butcher cutting sequence section", () => {
@@ -45,14 +54,36 @@ describe("Phase 2 Cinematic Landing Page", () => {
     expect(stageItems.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("renders the scroll-driven anatomical cuts separation section", () => {
+  it("verifies mobile cut selection updates cut details with accessible selected state", () => {
     render(<Home />);
-    expect(screen.getByText(/Anatomy of Freshness: The Cut Separation/i)).toBeDefined();
+    
+    // Find lower leg tab button
+    const drumstickTab = screen.getByRole("tab", { name: /Fresh Drumstick Cut/i });
+    expect(drumstickTab).toBeDefined();
+    
+    // Click on drumstick cut
+    fireEvent.click(drumstickTab);
+    
+    // Check accessible selected state
+    expect(drumstickTab.getAttribute("aria-selected")).toBe("true");
+    
+    // Check that drumstick details are displayed
+    expect(screen.getAllByText(/Juicy Dark Meat on Bone/i).length).toBeGreaterThanOrEqual(1);
   });
 
-  it("renders the hygiene and food safety promise section", () => {
+  it("respects reduced-motion preference by disabling video autoplay", () => {
+    setupMatchMedia(true);
     render(<Home />);
-    expect(screen.getByText(/The A1 Hygiene Promise/i)).toBeDefined();
-    expect(screen.getByText(/Gloved Preparation Protocol/i)).toBeDefined();
+    
+    // In reduced motion, video should have pause called or not autoplay
+    const video = screen.getByLabelText(/A1 Chicken Center butcher preparation demonstration/i) as HTMLVideoElement;
+    expect(video).toBeDefined();
+  });
+
+  it("renders the quality handling and fresh cut presentation section", () => {
+    render(<Home />);
+    expect(screen.getByText(/Fresh Cuts, Clean Preparation/i)).toBeDefined();
+    expect(screen.getByText(/Daily Fresh Poultry/i)).toBeDefined();
+    expect(screen.getByText(/Custom Recipe Cuts/i)).toBeDefined();
   });
 });

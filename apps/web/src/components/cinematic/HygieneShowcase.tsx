@@ -1,32 +1,32 @@
 import React from "react";
 import Image from "next/image";
-import { ShieldCheck, Droplets, Snowflake, Sparkles } from "lucide-react";
+import { Sparkles, Utensils, CheckCircle2, PackageCheck } from "lucide-react";
 
 export default function HygieneShowcase() {
   const pillars = [
     {
-      icon: ShieldCheck,
-      title: "Gloved Preparation Protocol",
-      description:
-        "Butchers wear clean single-use gloves during cutting and portioning to maintain personal and food hygiene standards.",
-    },
-    {
-      icon: Droplets,
-      title: "Clean Fresh Water Rinse",
-      description:
-        "Every bird is thoroughly washed with clean water prior to cutting, removing natural surface impurities before packaging.",
-    },
-    {
-      icon: Snowflake,
-      title: "Chilled Fresh Daily",
-      description:
-        "Stock is brought in fresh and kept appropriately chilled to preserve tenderness and prevent spoilage throughout the day.",
-    },
-    {
       icon: Sparkles,
-      title: "Sanitized Prep Surfaces",
+      title: "Daily Fresh Poultry",
       description:
-        "Cutting blocks, knives, and stainless-steel prep tables are frequently washed and sanitized throughout working hours.",
+        "Poultry sourced fresh daily to provide natural flavor, tenderness, and wholesome quality for everyday home meals.",
+    },
+    {
+      icon: Utensils,
+      title: "Custom Recipe Cuts",
+      description:
+        "Portioned specifically for your cooking style—curry pieces, biryani cuts, boneless fillets, or whole dressed bird.",
+    },
+    {
+      icon: CheckCircle2,
+      title: "Natural Cuts",
+      description:
+        "Fresh meat prepared naturally without artificial additives, chemical tenderizers, or unnecessary water injection.",
+    },
+    {
+      icon: PackageCheck,
+      title: "Neat Kitchen-Ready Packing",
+      description:
+        "Carefully packed in clean containers to ensure your order arrives fresh, organized, and ready for your cooking pot.",
     },
   ];
 
@@ -39,7 +39,7 @@ export default function HygieneShowcase() {
             <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border border-brand-800/60 shadow-2xl bg-black-deep">
               <Image
                 src="/assets/images/boneless-breast.jpg"
-                alt="Butcher preparing chicken cuts wearing gloves at A1 Chicken Center"
+                alt="Fresh poultry cuts being portioned at A1 Chicken Center"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover object-center filter contrast-[1.08]"
@@ -48,10 +48,10 @@ export default function HygieneShowcase() {
 
               <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-black-deep/90 border border-brand-800/80 backdrop-blur-md">
                 <span className="text-xs font-mono text-brand-500 font-bold uppercase tracking-wider block mb-1">
-                  Hygiene Practice
+                  Quality Handling
                 </span>
                 <p className="text-sm font-semibold text-white">
-                  Clean, Sanitized Prep with Every Order
+                  Freshness &amp; Care in Every Cut
                 </p>
               </div>
             </div>
@@ -61,14 +61,14 @@ export default function HygieneShowcase() {
           <div className="lg:col-span-7 space-y-8">
             <div>
               <span className="text-xs font-semibold uppercase tracking-wider text-brand-500">
-                Food Safety Standards
+                Our Standards
               </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-1 mb-4">
-                The A1 Hygiene Promise
+                Fresh Cuts, Clean Preparation
               </h2>
               <p className="text-sm sm:text-base text-black-muted leading-relaxed">
-                We take cleanliness seriously. From washed prep surfaces to gloved handling and daily
-                fresh stock, we ensure that every cut you receive is handled with care and cleanliness.
+                At A1 Chicken Center, we take pride in clean handling, skilled butchery, and honest customer service.
+                Every order is portioned freshly to give you the best possible cooking experience at home.
               </p>
             </div>
 

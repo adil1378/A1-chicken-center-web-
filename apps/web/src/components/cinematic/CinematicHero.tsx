@@ -171,7 +171,7 @@ export default function CinematicHero() {
 
           <div className="inline-flex items-center gap-1.5 text-xs text-white-off/70 pl-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Clean Prep Table &bull; Fresh Stock</span>
+            <span>Fresh Poultry &bull; Daily Cuts</span>
           </div>
         </div>
 

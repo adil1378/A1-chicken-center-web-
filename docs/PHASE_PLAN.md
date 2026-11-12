@@ -49,12 +49,12 @@ Phase 8: Testing, Optimization & Deployment
 * **Goal**: Deliver a high-impact, cinematic brand presentation and cutting-edge butchery animations.
 * **Deliverables**:
   * Whole chicken opening visual sequence with video reel and audio controls (`CinematicHero.tsx`).
-  * Butcher-style precision cutting sequence highlighting sanitation and skill (`ButcherCuttingSequence.tsx`).
+  * Butcher-style precision cutting sequence highlighting custom cut types and portioning (`ButcherCuttingSequence.tsx`).
   * Scroll-driven chicken-part separation for legs, breast, whole carcass, and diced cuts (`ScrollCutsSeparation.tsx`).
   * GSAP + ScrollTrigger integration with timeline scrub and memory clean up.
   * Optimized photorealistic commercial video/image sequences evaluated over Blender 3D models.
   * Mobile-responsive motion design and lightweight touch card fallback.
-  * Clinical food-grade hygiene and safety showcase (`HygieneShowcase.tsx`).
+  * Quality handling and fresh cut presentation showcase (`HygieneShowcase.tsx`).
 * **Exit Criteria**:
   * Frontend tests, lint, typecheck, and production build pass with 0 errors.
   * Changes committed and pushed to GitHub repository.
