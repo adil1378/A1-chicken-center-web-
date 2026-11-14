@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Layers, ArrowUpRight, ShieldCheck, Flame, Scale } from "lucide-react";
+import { Layers, ArrowUpRight, Utensils, Flame, Scale } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -22,46 +22,46 @@ const CUTS: CutDetail[] = [
   {
     id: "breast-fillet",
     name: "Boneless Breast Fillet",
-    anatomyTag: "Breast Cut",
+    anatomyTag: "Breast Portion",
     imageSrc: "/assets/images/boneless-breast.jpg",
-    meatType: "Lean Skinless White Meat",
+    meatType: "Lean White Meat",
     cookingStyle: "Tandoori Tikka, Grills, Stir-Fries",
-    butcherNote: "Carved clean of excess skin and fat for quick-cooking recipes.",
+    butcherNote: "Skinless boneless cut suited for high-heat pan cooking and quick recipes.",
     quadrant: "top-left",
-    initialOffset: { x: 50, y: 30 },
+    initialOffset: { x: 30, y: 20 },
   },
   {
     id: "drumstick-leg",
     name: "Fresh Drumstick Cut",
-    anatomyTag: "Lower Leg Quarter",
+    anatomyTag: "Leg Quarter",
     imageSrc: "/assets/images/drumstick-cut.jpg",
-    meatType: "Juicy Dark Meat on Bone",
+    meatType: "Bone-in Dark Meat",
     cookingStyle: "Dum Biryani, Slow Gravies, Roasts",
-    butcherNote: "Separated along natural cartilage joints to keep bone ends intact.",
+    butcherNote: "Tender dark meat on the bone that retains moisture during slow cooking.",
     quadrant: "bottom-left",
-    initialOffset: { x: 50, y: -30 },
+    initialOffset: { x: 30, y: -20 },
   },
   {
     id: "joint-cuts",
     name: "Bone-in Joint Cuts",
-    anatomyTag: "Wing & Back Joints",
+    anatomyTag: "Wing & Back Cuts",
     imageSrc: "/assets/images/whole-carving.jpg",
-    meatType: "Skin-on Mixed Cuts",
+    meatType: "Mixed Bone-in Cuts",
     cookingStyle: "Slow-Braised Curries, Broths",
-    butcherNote: "Portioned along natural joints for traditional bone-in curries.",
+    butcherNote: "Traditional bone-in portions that impart flavor to rich broths and gravies.",
     quadrant: "top-right",
-    initialOffset: { x: -50, y: 30 },
+    initialOffset: { x: -30, y: 20 },
   },
   {
     id: "curry-cubes",
     name: "Uniform Curry Pieces",
     anatomyTag: "Diced Cuts",
     imageSrc: "/assets/images/diced-cubes.jpg",
-    meatType: "Bite-Sized Tender Cubes",
+    meatType: "Evenly Sized Pieces",
     cookingStyle: "Home Curries, Handi, Korma",
-    butcherNote: "Portioned into consistent bite-sized pieces for even cooking in gravies.",
+    butcherNote: "Evenly cut portions prepared for consistent cooking in homestyle curries.",
     quadrant: "bottom-right",
-    initialOffset: { x: -50, y: -30 },
+    initialOffset: { x: -30, y: -20 },
   },
 ];
 
@@ -72,124 +72,115 @@ export default function ScrollCutsSeparation() {
   const centerHubRef = useRef<HTMLDivElement | null>(null);
 
   const [selectedCut, setSelectedCut] = useState<CutDetail>(CUTS[0]);
-  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false);
 
-  // Setup GSAP with dynamic resize and reduced motion handling
+  // Robust responsive GSAP MatchMedia lifecycle
   useEffect(() => {
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updateMotion = (e: MediaQueryListEvent | MediaQueryList) => {
-      setIsReducedMotion(e.matches);
-    };
-
-    updateMotion(motionQuery);
-    motionQuery.addEventListener("change", updateMotion);
-
-    return () => {
-      motionQuery.removeEventListener("change", updateMotion);
-    };
-  }, []);
-
-  useEffect(() => {
-    // If reduced motion is active or small screen, do not initialize ScrollTrigger pin
-    if (isReducedMotion) return;
-
-    const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
-    if (!isDesktop) return;
-
     gsap.registerPlugin(ScrollTrigger);
 
     const container = containerRef.current;
     const pinViewport = pinViewportRef.current;
     const centerHub = centerHubRef.current;
-
     if (!container || !pinViewport || !centerHub) return;
 
-    let ctx: gsap.Context | null = null;
+    const mm = gsap.matchMedia(container);
 
-    const initAnimation = () => {
-      ctx = gsap.context(() => {
-        // Set initial state: Central chicken visible, cards positioned with opacity 0
-        gsap.set(centerHub, { scale: 1, opacity: 1 });
-        cutsRefs.current.forEach((card, index) => {
-          if (!card) return;
-          const { x, y } = CUTS[index].initialOffset;
-          gsap.set(card, { opacity: 0, scale: 0.88, x, y });
-        });
+    mm.add(
+      {
+        isDesktop: "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+        isMobileOrReduced: "(max-width: 1023px), (prefers-reduced-motion: reduce)",
+      },
+      (context) => {
+        const { isDesktop } = context.conditions as {
+          isDesktop: boolean;
+          isMobileOrReduced: boolean;
+        };
 
-        // Master pinned scrub timeline
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: container,
-            start: "top top",
-            end: "+=1400",
-            scrub: 1,
-            pin: pinViewport,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        });
+        if (isDesktop) {
+          // Set initial state: Central chicken visible, cards positioned with opacity 0 and slight inset
+          gsap.set(centerHub, { scale: 1, opacity: 1 });
+          cutsRefs.current.forEach((card, index) => {
+            if (!card) return;
+            const { x, y } = CUTS[index].initialOffset;
+            gsap.set(card, { opacity: 0, scale: 0.9, x, y });
+          });
 
-        // 1. Center chicken dims and scales down slightly as separation begins
-        tl.to(
-          centerHub,
-          {
-            scale: 0.82,
-            opacity: 0.3,
-            duration: 0.4,
-            ease: "power2.out",
-          },
-          0
-        );
-
-        // 2. Each cut card reveals and glides to its quadrant position (x:0, y:0 relative to its quadrant anchor)
-        cutsRefs.current.forEach((card) => {
-          if (!card) return;
-          tl.to(
-            card,
-            {
-              opacity: 1,
-              scale: 1,
-              x: 0,
-              y: 0,
-              duration: 0.7,
-              ease: "power3.out",
+          // Master pinned scrub timeline
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: container,
+              start: "top top",
+              end: "+=1200",
+              scrub: 1,
+              pin: pinViewport,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
             },
-            0.15
+          });
+
+          // 1. Center chicken dims and scales down slightly as separation begins
+          tl.to(
+            centerHub,
+            {
+              scale: 0.85,
+              opacity: 0.25,
+              duration: 0.4,
+              ease: "power2.out",
+            },
+            0
           );
-        });
-      }, container);
-    };
 
-    initAnimation();
+          // 2. Each cut card reveals and glides to its quadrant position (x:0, y:0 relative to its quadrant anchor)
+          cutsRefs.current.forEach((card) => {
+            if (!card) return;
+            tl.to(
+              card,
+              {
+                opacity: 1,
+                scale: 1,
+                x: 0,
+                y: 0,
+                duration: 0.7,
+                ease: "power3.out",
+              },
+              0.15
+            );
+          });
 
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        if (ctx) ctx.revert();
-      } else {
-        ScrollTrigger.refresh();
+          return () => {
+            // Teardown when media query stops matching (e.g. resized < 1024px or motion preference changed)
+            tl.kill();
+            gsap.set(centerHub, { clearProps: "all" });
+            cutsRefs.current.forEach((card) => {
+              if (card) gsap.set(card, { clearProps: "all" });
+            });
+          };
+        } else {
+          // Fallback cleanup for mobile or reduced motion
+          gsap.set(centerHub, { clearProps: "all" });
+          cutsRefs.current.forEach((card) => {
+            if (card) gsap.set(card, { clearProps: "all" });
+          });
+        }
       }
-    };
-
-    window.addEventListener("resize", handleResize);
+    );
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      if (ctx) ctx.revert();
+      mm.revert();
     };
-  }, [isReducedMotion]);
+  }, []);
 
   return (
     <section id="cuts-separation" ref={containerRef} className="relative bg-black-deep text-white border-t border-black-border">
-      {/* Pinned Desktop Viewport */}
+      {/* Pinned Desktop Viewport Container */}
       <div
         ref={pinViewportRef}
-        className="min-h-screen w-full flex flex-col justify-between py-10 px-6 lg:px-12 relative overflow-hidden"
+        className="min-h-screen w-full flex flex-col justify-between py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
       >
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto z-10 pt-2">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-950/80 border border-brand-800 text-brand-500 text-xs font-semibold mb-3">
             <Layers className="w-3.5 h-3.5" />
-            <span className="uppercase tracking-wider">Scroll-Driven Anatomy</span>
+            <span className="uppercase tracking-wider">Cut Separation</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-2">
@@ -207,18 +198,18 @@ export default function ScrollCutsSeparation() {
         </div>
 
         {/* DESKTOP VIEWPORT (Screen >= 1024px): Four Quadrants with Center Whole Chicken */}
-        <div className="hidden lg:block relative flex-1 w-full max-w-7xl mx-auto my-4 min-h-[580px]">
+        <div className="hidden lg:block relative flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto my-auto min-h-[560px] h-[580px] xl:h-[620px]">
           {/* 1. Center Anchor: Whole Dressed Chicken (Unobstructed at origin) */}
           <div
             ref={centerHubRef}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-64 h-64 xl:w-72 xl:h-72 rounded-2xl border-2 border-brand-800/70 bg-black-surface overflow-hidden shadow-2xl flex flex-col items-center justify-center text-center p-2 backdrop-blur-sm pointer-events-none transition-transform"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-52 h-52 lg:w-56 lg:h-56 xl:w-64 xl:h-64 rounded-2xl border-2 border-brand-800/70 bg-black-surface overflow-hidden shadow-2xl flex flex-col items-center justify-center text-center p-2 backdrop-blur-sm pointer-events-none transition-transform"
           >
             <div className="relative w-full h-full rounded-xl overflow-hidden">
               <Image
                 src="/assets/images/whole-dressed-center.jpg"
                 alt="Complete whole dressed chicken prior to butchering"
                 fill
-                sizes="280px"
+                sizes="260px"
                 className="object-cover object-center filter contrast-[1.05]"
                 priority
               />
@@ -232,13 +223,13 @@ export default function ScrollCutsSeparation() {
             </div>
           </div>
 
-          {/* 2. Four Individual Quadrant Cut Cards (Positioned with explicit margins, never overlapping center) */}
+          {/* 2. Four Individual Quadrant Cut Cards (Positioned in corners, collision-resistant at >= 1024px) */}
           {/* Top-Left Quadrant */}
           <div
             ref={(el) => {
               cutsRefs.current[0] = el;
             }}
-            className="absolute top-4 left-4 xl:left-8 z-10 w-64 xl:w-72 rounded-2xl bg-black-surface/95 border border-black-border hover:border-brand-600/80 p-3.5 shadow-2xl backdrop-blur-md transition-colors"
+            className="absolute top-4 left-4 xl:left-8 z-10 w-52 lg:w-56 xl:w-64 rounded-2xl bg-black-surface/95 border border-black-border hover:border-brand-600/80 p-3 shadow-2xl backdrop-blur-md transition-colors"
           >
             <CutCardContent cut={CUTS[0]} />
           </div>
@@ -248,7 +239,7 @@ export default function ScrollCutsSeparation() {
             ref={(el) => {
               cutsRefs.current[1] = el;
             }}
-            className="absolute bottom-4 left-4 xl:left-8 z-10 w-64 xl:w-72 rounded-2xl bg-black-surface/95 border border-black-border hover:border-brand-600/80 p-3.5 shadow-2xl backdrop-blur-md transition-colors"
+            className="absolute bottom-4 left-4 xl:left-8 z-10 w-52 lg:w-56 xl:w-64 rounded-2xl bg-black-surface/95 border border-black-border hover:border-brand-600/80 p-3 shadow-2xl backdrop-blur-md transition-colors"
           >
             <CutCardContent cut={CUTS[1]} />
           </div>
@@ -258,7 +249,7 @@ export default function ScrollCutsSeparation() {
             ref={(el) => {
               cutsRefs.current[2] = el;
             }}
-            className="absolute top-4 right-4 xl:right-8 z-10 w-64 xl:w-72 rounded-2xl bg-black-surface/95 border border-black-border hover:border-brand-600/80 p-3.5 shadow-2xl backdrop-blur-md transition-colors"
+            className="absolute top-4 right-4 xl:right-8 z-10 w-52 lg:w-56 xl:w-64 rounded-2xl bg-black-surface/95 border border-black-border hover:border-brand-600/80 p-3 shadow-2xl backdrop-blur-md transition-colors"
           >
             <CutCardContent cut={CUTS[2]} />
           </div>
@@ -268,7 +259,7 @@ export default function ScrollCutsSeparation() {
             ref={(el) => {
               cutsRefs.current[3] = el;
             }}
-            className="absolute bottom-4 right-4 xl:right-8 z-10 w-64 xl:w-72 rounded-2xl bg-black-surface/95 border border-black-border hover:border-brand-600/80 p-3.5 shadow-2xl backdrop-blur-md transition-colors"
+            className="absolute bottom-4 right-4 xl:right-8 z-10 w-52 lg:w-56 xl:w-64 rounded-2xl bg-black-surface/95 border border-black-border hover:border-brand-600/80 p-3 shadow-2xl backdrop-blur-md transition-colors"
           >
             <CutCardContent cut={CUTS[3]} />
           </div>
@@ -354,10 +345,10 @@ export default function ScrollCutsSeparation() {
         {/* Bottom Note */}
         <div className="max-w-4xl mx-auto w-full pt-4 border-t border-black-border text-center flex flex-wrap items-center justify-between text-xs text-black-muted gap-2 z-10">
           <span className="flex items-center gap-1.5 text-white-off/80">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            Separated Along Natural Joint Cartilage &bull; Clean Cuts
+            <Utensils className="w-4 h-4 text-brand-500" />
+            Multiple Cut Options &bull; Portioned for Cooking
           </span>
-          <span className="font-mono text-brand-500">A1 Butchery Preparation</span>
+          <span className="font-mono text-brand-500">A1 Chicken Cut Varieties</span>
         </div>
       </div>
     </section>
@@ -367,12 +358,12 @@ export default function ScrollCutsSeparation() {
 function CutCardContent({ cut }: { cut: CutDetail }) {
   return (
     <>
-      <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-2.5 border border-black-border bg-black-deep">
+      <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-2 border border-black-border bg-black-deep">
         <Image
           src={cut.imageSrc}
           alt={cut.name}
           fill
-          sizes="280px"
+          sizes="260px"
           className="object-cover object-center"
         />
         <div className="absolute top-2 left-2 bg-black-deep/85 px-2 py-0.5 rounded text-[10px] font-mono font-bold text-brand-500 uppercase border border-brand-900">
@@ -380,17 +371,17 @@ function CutCardContent({ cut }: { cut: CutDetail }) {
         </div>
       </div>
 
-      <div className="space-y-1.5 text-left">
-        <h4 className="text-sm font-bold text-white flex items-center justify-between">
+      <div className="space-y-1 text-left">
+        <h4 className="text-xs sm:text-sm font-bold text-white flex items-center justify-between">
           <span>{cut.name}</span>
-          <ArrowUpRight className="w-3.5 h-3.5 text-brand-500" />
+          <ArrowUpRight className="w-3.5 h-3.5 text-brand-500 shrink-0" />
         </h4>
 
         <p className="text-[11px] text-black-muted leading-relaxed line-clamp-2">
           {cut.butcherNote}
         </p>
 
-        <div className="pt-2 border-t border-black-border flex items-center justify-between text-[10px]">
+        <div className="pt-1.5 border-t border-black-border flex items-center justify-between text-[10px]">
           <span className="text-white-off/90 font-medium flex items-center gap-1">
             <Scale className="w-3 h-3 text-brand-500" />
             {cut.meatType}

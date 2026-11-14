@@ -5,7 +5,7 @@ import { Play, Pause, Volume2, VolumeX, ShieldCheck, Sparkles, ChevronDown } fro
 
 export default function CinematicHero() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(true);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(true);
   const [progress, setProgress] = useState<number>(0);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
@@ -35,27 +35,60 @@ export default function CinematicHero() {
 
     const handlePlayEvent = () => setIsPlaying(true);
     const handlePauseEvent = () => setIsPlaying(false);
+    const handleEndedEvent = () => {
+      setIsPlaying(false);
+      setProgress(0);
+    };
+    const handleErrorEvent = () => {
+      setIsPlaying(false);
+    };
 
     video.addEventListener("timeupdate", handleTimeUpdate);
     video.addEventListener("play", handlePlayEvent);
+    video.addEventListener("playing", handlePlayEvent);
     video.addEventListener("pause", handlePauseEvent);
+    video.addEventListener("ended", handleEndedEvent);
+    video.addEventListener("error", handleErrorEvent);
+
+    // Initial play attempt if motion is allowed
+    if (!motionQuery.matches) {
+      video.play().then(() => {
+        setIsPlaying(true);
+      }).catch(() => {
+        // Autoplay blocked by browser policy; user interaction required
+        setIsPlaying(false);
+      });
+    } else {
+      video.pause();
+      setIsPlaying(false);
+    }
 
     return () => {
       motionQuery.removeEventListener("change", handleMotionChange);
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("play", handlePlayEvent);
+      video.removeEventListener("playing", handlePlayEvent);
       video.removeEventListener("pause", handlePauseEvent);
+      video.removeEventListener("ended", handleEndedEvent);
+      video.removeEventListener("error", handleErrorEvent);
     };
   }, []);
 
-  const togglePlay = () => {
+  const togglePlay = async () => {
     const video = videoRef.current;
     if (!video) return;
 
-    if (video.paused) {
-      video.play().catch(() => {});
+    if (video.paused || video.ended) {
+      try {
+        await video.play();
+        setIsPlaying(true);
+      } catch {
+        // Playback was prevented or rejected by the browser
+        setIsPlaying(false);
+      }
     } else {
       video.pause();
+      setIsPlaying(false);
     }
   };
 
@@ -101,10 +134,10 @@ export default function CinematicHero() {
 
       {/* Hero Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-20 text-center flex flex-col items-center">
-        {/* Honest Badge */}
+        {/* Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black-surface/80 border border-brand-800/60 backdrop-blur-md text-brand-100 text-xs sm:text-sm font-semibold mb-8 shadow-xl shadow-brand-950/50">
           <Sparkles className="w-4 h-4 text-brand-500 animate-pulse" />
-          <span className="tracking-wide">Fresh Daily Poultry &bull; Custom Butchery</span>
+          <span className="tracking-wide">Poultry Cuts &bull; Custom Butchery</span>
         </div>
 
         {/* Main Brand Title */}
@@ -119,8 +152,8 @@ export default function CinematicHero() {
 
         {/* Sub-headline description */}
         <p className="text-sm sm:text-base md:text-lg text-white-off/80 max-w-2xl mx-auto leading-relaxed mb-10 font-normal">
-          Handled with care and portioned to order. From whole dressed birds to boneless cuts and diced
-          curry pieces, we cut every order cleanly to match your home cooking needs.
+          From whole dressed chicken to boneless breast fillets, drumsticks, and curry pieces,
+          explore cuts portioned for your home cooking recipes.
         </p>
 
         {/* Video Playback Controls Bar */}
@@ -171,7 +204,7 @@ export default function CinematicHero() {
 
           <div className="inline-flex items-center gap-1.5 text-xs text-white-off/70 pl-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Fresh Poultry &bull; Daily Cuts</span>
+            <span>Whole &bull; Cut Chicken Options</span>
           </div>
         </div>
 

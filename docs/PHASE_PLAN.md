@@ -54,7 +54,7 @@ Phase 8: Testing, Optimization & Deployment
   * GSAP + ScrollTrigger integration with timeline scrub and memory clean up.
   * Optimized photorealistic commercial video/image sequences evaluated over Blender 3D models.
   * Mobile-responsive motion design and lightweight touch card fallback.
-  * Quality handling and fresh cut presentation showcase (`HygieneShowcase.tsx`).
+  * Chicken cut varieties and home-cooking options showcase (`HygieneShowcase.tsx`).
 * **Exit Criteria**:
   * Frontend tests, lint, typecheck, and production build pass with 0 errors.
   * Changes committed and pushed to GitHub repository.

@@ -1,32 +1,34 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
-import { Sparkles, Utensils, CheckCircle2, PackageCheck } from "lucide-react";
+import { Utensils, Sparkles, CheckCircle2, PackageCheck } from "lucide-react";
 
 export default function HygieneShowcase() {
   const pillars = [
     {
-      icon: Sparkles,
-      title: "Daily Fresh Poultry",
+      icon: Utensils,
+      title: "Curry Cut Chicken",
       description:
-        "Poultry sourced fresh daily to provide natural flavor, tenderness, and wholesome quality for everyday home meals.",
+        "Balanced bone-in pieces that release rich flavor into curries, stews, and slow-simmered gravies.",
     },
     {
-      icon: Utensils,
-      title: "Custom Recipe Cuts",
+      icon: Sparkles,
+      title: "Boneless Breast Fillets",
       description:
-        "Portioned specifically for your cooking style—curry pieces, biryani cuts, boneless fillets, or whole dressed bird.",
+        "Tender, skinless breast cuts suited for quick cooking, pan-searing, tandoori tikka, and stir-fries.",
     },
     {
       icon: CheckCircle2,
-      title: "Natural Cuts",
+      title: "Legs & Drumsticks",
       description:
-        "Fresh meat prepared naturally without artificial additives, chemical tenderizers, or unnecessary water injection.",
+        "Moist and flavorful dark meat portions on the bone, ideal for dum biryanis and tandoori roasts.",
     },
     {
       icon: PackageCheck,
-      title: "Neat Kitchen-Ready Packing",
+      title: "Custom Recipe Portions",
       description:
-        "Carefully packed in clean containers to ensure your order arrives fresh, organized, and ready for your cooking pot.",
+        "Cut and portioned to match your specific cooking needs, from whole birds to specialized recipe sizes.",
     },
   ];
 
@@ -39,7 +41,7 @@ export default function HygieneShowcase() {
             <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden border border-brand-800/60 shadow-2xl bg-black-deep">
               <Image
                 src="/assets/images/boneless-breast.jpg"
-                alt="Fresh poultry cuts being portioned at A1 Chicken Center"
+                alt="Poultry cuts prepared for home cooking at A1 Chicken Center"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover object-center filter contrast-[1.08]"
@@ -48,10 +50,10 @@ export default function HygieneShowcase() {
 
               <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-black-deep/90 border border-brand-800/80 backdrop-blur-md">
                 <span className="text-xs font-mono text-brand-500 font-bold uppercase tracking-wider block mb-1">
-                  Quality Handling
+                  Cut Options
                 </span>
                 <p className="text-sm font-semibold text-white">
-                  Freshness &amp; Care in Every Cut
+                  Portioned for Your Cooking Style
                 </p>
               </div>
             </div>
@@ -61,14 +63,14 @@ export default function HygieneShowcase() {
           <div className="lg:col-span-7 space-y-8">
             <div>
               <span className="text-xs font-semibold uppercase tracking-wider text-brand-500">
-                Our Standards
+                Custom Butchery &amp; Cuts
               </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-1 mb-4">
-                Fresh Cuts, Clean Preparation
+                Cuts for Every Cooking Style
               </h2>
               <p className="text-sm sm:text-base text-black-muted leading-relaxed">
-                At A1 Chicken Center, we take pride in clean handling, skilled butchery, and honest customer service.
-                Every order is portioned freshly to give you the best possible cooking experience at home.
+                From bone-in cuts for hearty stews to quick-cooking boneless fillets, explore our primary
+                chicken cut options designed for everyday cooking and authentic recipes.
               </p>
             </div>
 
