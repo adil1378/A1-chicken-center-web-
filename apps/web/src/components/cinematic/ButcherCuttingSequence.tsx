@@ -95,11 +95,12 @@ export default function ButcherCuttingSequence() {
         </div>
 
         {/* Step Selector Navigation */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-12" role="tablist" aria-label="Chicken cut stages">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-12" role="group" aria-label="Butcher cutting sequence stages">
           {STAGES.map((stage, index) => {
             const isActive = index === activeStageIndex;
             return (
               <button
+                type="button"
                 key={stage.id}
                 onClick={() => setActiveStageIndex(index)}
                 className={`text-left p-4 rounded-xl border transition-all duration-300 relative overflow-hidden ${
@@ -107,8 +108,8 @@ export default function ButcherCuttingSequence() {
                     ? "bg-brand-950/60 border-brand-600 shadow-lg shadow-brand-950"
                     : "bg-black-deep/60 border-black-border hover:border-brand-900/50 hover:bg-black-deep"
                 }`}
-                role="tab"
-                aria-selected={isActive}
+                aria-pressed={isActive}
+                aria-label={`Select cut step ${stage.stepNumber}: ${stage.title}`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <span

@@ -198,7 +198,7 @@ export default function ScrollCutsSeparation() {
         </div>
 
         {/* DESKTOP VIEWPORT (Screen >= 1024px): Four Quadrants with Center Whole Chicken */}
-        <div className="hidden lg:block relative flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto my-auto min-h-[560px] h-[580px] xl:h-[620px]">
+        <div className="hidden lg:block relative flex-1 w-full max-w-6xl xl:max-w-7xl mx-auto my-auto min-h-[580px] h-[600px] xl:h-[640px]">
           {/* 1. Center Anchor: Whole Dressed Chicken (Unobstructed at origin) */}
           <div
             ref={centerHubRef}
@@ -285,12 +285,13 @@ export default function ScrollCutsSeparation() {
             </div>
           </div>
 
-          {/* Cut Selection Tabs */}
-          <div className="flex flex-wrap gap-2 justify-center" role="tablist" aria-label="Chicken cut selector">
+          {/* Cut Selection Buttons */}
+          <div className="flex flex-wrap gap-2 justify-center" role="group" aria-label="Mobile cut selector buttons">
             {CUTS.map((cut) => {
               const isActive = cut.id === selectedCut.id;
               return (
                 <button
+                  type="button"
                   key={cut.id}
                   onClick={() => setSelectedCut(cut)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition border ${
@@ -298,8 +299,8 @@ export default function ScrollCutsSeparation() {
                       ? "bg-brand-600 border-brand-500 text-white shadow-md shadow-brand-950"
                       : "bg-black-surface border-black-border text-white-off hover:border-brand-800"
                   }`}
-                  role="tab"
-                  aria-selected={isActive}
+                  aria-pressed={isActive}
+                  aria-label={`Select ${cut.name}`}
                 >
                   {cut.name}
                 </button>
@@ -358,7 +359,7 @@ export default function ScrollCutsSeparation() {
 function CutCardContent({ cut }: { cut: CutDetail }) {
   return (
     <>
-      <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-2 border border-black-border bg-black-deep">
+      <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden mb-2 border border-black-border bg-black-deep">
         <Image
           src={cut.imageSrc}
           alt={cut.name}
