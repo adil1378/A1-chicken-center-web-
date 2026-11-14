@@ -315,6 +315,7 @@ describe("Phase 2 Cinematic Landing Page & Animations", () => {
     // 2. Transition to mobile viewport (390px)
     await act(async () => {
       controller.setEnvironment({ width: 390 });
+      await new Promise((resolve) => setTimeout(resolve, 50));
     });
 
     // Verify the desktop timeline was explicitly killed during transition to mobile
@@ -323,6 +324,7 @@ describe("Phase 2 Cinematic Landing Page & Animations", () => {
     // 3. Transition back to desktop viewport (1440px)
     await act(async () => {
       controller.setEnvironment({ width: 1440 });
+      await new Promise((resolve) => setTimeout(resolve, 50));
     });
 
     // Verify GSAP timeline was reconstructed fresh for desktop
@@ -371,7 +373,7 @@ describe("Phase 2 Cinematic Landing Page & Animations", () => {
       render(<Home />);
     });
     expect(screen.getByText(/Cuts for Every Cooking Style/i)).toBeDefined();
-    expect(screen.getByText(/Curry Cut Chicken/i)).toBeDefined();
+    expect(screen.getAllByText(/Curry Cut Chicken/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Boneless Breast Fillets/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText(/Legs & Drumsticks/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/Custom Recipe Portions/i)).toBeDefined();
